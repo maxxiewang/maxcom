@@ -1,17 +1,18 @@
+//! 要先把reboot等导进来，先有这些变量和reboot再添加自己的东西
 // config
 @import 'variables';
 
 //layout
 @import 'reboot';
 
-// //mixin
-// @import "mixin";
+//mixin
+@import 'mixin';
 
 // // animation
 // @import "animation";
-// // button
+// button
 
-// @import "../components/Button/style";
+@import '../components/Button/style';
 
 // // menu
 

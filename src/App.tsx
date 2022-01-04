@@ -4,12 +4,25 @@ import MxButton, { ButtonType, ButtonSize } from './components/Button/button'
 function App() {
   return (
     <div className="App">
-      <MxButton>default</MxButton>
+      <MxButton autoFocus btnType={ButtonType.Default}>
+        Default Button
+      </MxButton>
+      <MxButton disabled>Default disabled</MxButton>
       <MxButton btnType={ButtonType.Danger} size={ButtonSize.Large}>
         Dan+lar
       </MxButton>
+      <MxButton btnType={ButtonType.Primary} size={ButtonSize.Small}>
+        Primary Small
+      </MxButton>
       <MxButton btnType={ButtonType.Link} href={'www.baidu.com'}>
         Link
+      </MxButton>
+      <MxButton
+        disabled={true}
+        btnType={ButtonType.Link}
+        href={'www.baidu.com'}
+      >
+        DisLink
       </MxButton>
       <header className="App-header">
         <p>
