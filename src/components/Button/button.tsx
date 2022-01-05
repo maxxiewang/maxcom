@@ -29,7 +29,7 @@ type NativeButtonProps = BaseButtonProps &
 // 给a链接使用的属性
 type AnchorButtonProps = BaseButtonProps &
   React.ButtonHTMLAttributes<HTMLElement>
-//! 利用TS特性，把里面的属性都变成可选的。在mixins中，有一些是Button必传的，但不是a标签不是必传的
+//! 利用TS的Partial特性，把里面的属性都变成可选的。在mixins中，有一些是Button必传的，但不是a标签不是必传的
 export type ButtonProps = Partial<NativeButtonProps | AnchorButtonProps>
 
 const MxButton: React.FC<ButtonProps> = (props) => {
