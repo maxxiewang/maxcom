@@ -1,9 +1,16 @@
 import React from 'react'
 import MxButton, { ButtonType, ButtonSize } from './components/Button/button'
+import MxMenu from './components/Menu/Menu'
+import MenuItem from './components/Menu/menuItem'
 
 function App() {
   return (
     <div className="App">
+      <MxMenu>
+        <MenuItem>cool link</MenuItem>
+        <MenuItem>cool link2</MenuItem>
+        <MenuItem>cool link3</MenuItem>
+      </MxMenu>
       <MxButton autoFocus btnType={ButtonType.Default}>
         Default Button
       </MxButton>
