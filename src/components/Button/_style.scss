@@ -8,6 +8,7 @@
   text-align: center;
   vertical-align: middle; //上下左右居中
   background-image: none;
+  margin-right: 10px;
   border: $btn-border-width solid transparent; //透明
   @include button-size(
     $btn-padding-y,
