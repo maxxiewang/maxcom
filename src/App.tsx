@@ -7,6 +7,7 @@ import MxMenu from './components/Menu/Menu'
 import MenuItem from './components/Menu/menuItem'
 import SubMenu from './components/Menu/subMenu'
 import MxIcon from './components/Icon/icon'
+import Input from './components/Input/input'
 library.add(fas)
 
 function App() {
@@ -49,21 +50,19 @@ function App() {
       >
         DisLink
       </MxButton>
-      {/* Icon组件的封装 */}
+      {/* Icon组件封装展示 */}
       <MxIcon icon="arrow-down" size="lg" theme="danger"></MxIcon>
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <br />
+      {/* Input组件封装展示*/}
+      <Input
+        style={{ marginTop: '25px', width: '300px' }}
+        placeholder="input with icon"
+        icon="search"
+      />
+      <Input style={{ width: '300px' }} disabled />
+      <Input style={{ width: '300px' }} defaultValue="large size" size="lg" />
+      <Input style={{ width: '300px' }} placeholder="small size" size="sm" />
+      <br />
     </div>
   )
 }
