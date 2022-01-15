@@ -1,4 +1,9 @@
-import React, { ReactElement, InputHTMLAttributes } from 'react'
+import React, {
+  ReactElement,
+  InputHTMLAttributes,
+  useState,
+  ChangeEvent,
+} from 'react'
 import classNames from 'classnames'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import Icon from '../Icon/icon'
@@ -8,13 +13,15 @@ type InputSize = 'lg' | 'sm'
   需要支持所有原生的HTML属性
   size与原生的重复了，使用TS内置的高级属性Omit
 */
-interface InputProps extends Omit<InputHTMLAttributes<HTMLElement>, 'size'> {
+export interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLElement>, 'size'> {
   className?: string
   disabled?: boolean
   size?: InputSize
   icon?: IconProp
   prepend?: string | ReactElement
   append?: string | ReactElement
+  // onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 const Input: React.FC<InputProps> = (props) => {
@@ -37,6 +44,21 @@ const Input: React.FC<InputProps> = (props) => {
     'input-group-append': !!append,
     'input-group-prepend': !!prepend,
   })
+  // const changeVal = (e: ChangeEvent<HTMLInputElement>) => {
+  //   console.log(e.target.value)
+  //   setValue(e.target.value)
+  // }
+  //! 下面两个方法是对value的一些处理，关于受控与非受控组件
+  const fixControlledValue = (value: any) => {
+    if (typeof value === 'undefined' || value === null) {
+      return ''
+    }
+    return value
+  }
+  if ('value' in props) {
+    delete restProps.defaultValue
+    restProps.value = fixControlledValue(props.value)
+  }
   // 3、根据属性是否添加特定的节点
   return (
     <div className={classes} style={style}>
