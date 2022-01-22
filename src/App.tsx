@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // 一个容器，图标还要具体导
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -8,10 +8,18 @@ import MenuItem from './components/Menu/menuItem'
 import SubMenu from './components/Menu/subMenu'
 import MxIcon from './components/Icon/icon'
 import Input from './components/Input/input'
+import Upload from './components/Upload/upload'
+import axios from 'axios'
 import AutoComplete, {
   DataSourceType,
 } from './components/AutoComplete/autoComplete'
 library.add(fas)
+
+interface GithubUserProps {
+  login: string
+  url: string
+  avatar_url: string
+}
 
 const players = [
   'lbj',
@@ -38,17 +46,55 @@ const playersWithNums = [
 
 function App() {
   const handleFectch = (query: string) => {
-    return playersWithNums.filter((player) => player.value.includes(query))
+    // return playersWithNums.filter((player) => player.value.includes(query))
+    return fetch(`https://api.github.com/search/users?q=${query}`)
+      .then((res) => res.json())
+      .then(({ items }) => {
+        return items
+          .slice(0, 10)
+          .map((item: any) => ({ value: item.login, ...item }))
+      })
   }
   const getSelectVal = (item: string) => {
     console.log('选择了:', item)
   }
   const renderOption = (item: DataSourceType) => {
+    //! 利用类型断言解决了这个问题
+    const itemWithGithub = item as DataSourceType<GithubUserProps>
     return (
-      <h5>
-        Name:{item.value}, Num:{item.number}
-      </h5>
+      <>
+        <h5>Name:{itemWithGithub.value}</h5>
+        <p>{itemWithGithub.url}</p>
+      </>
     )
+  }
+  const beforUploadTest = (file: File) => {
+    console.log('beforeUpload拿到的fileSize', file)
+    return false
+  }
+  //* axios，Input组件
+  const [title, useTitle] = useState('')
+  // useEffect(() => {
+  //   axios.get('https://jsonplaceholder.typicode.com/posts/1').then((res) => {
+  //     // console.log('axios>>>', res.data)
+  //   })
+  // })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      const uploadFiles = files[0]
+      const formData = new FormData()
+      formData.append(uploadFiles.name, uploadFiles)
+      axios
+        .post('https://jsonplaceholder.typicode.com/posts', formData, {
+          headers: {
+            'Content-type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          console.log('post上传文件>>>', res.data)
+        })
+    }
   }
   return (
     <div className="App">
@@ -97,6 +143,14 @@ function App() {
         fetchSuggestions={handleFectch}
         onSelect={getSelectVal}
         renderOption={renderOption}
+      />
+      {/* upload组件 */}
+      {/* <div>
+        <input type="file" name="myFile" onChange={handleChange} />
+      </div> */}
+      <Upload
+        action="https://jsonplaceholder.typicode.com/posts"
+        beforeUpload={beforUploadTest}
       />
       {/* Input组件封装展示*/}
       <Input
