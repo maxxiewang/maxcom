@@ -8,7 +8,7 @@ import MenuItem from './components/Menu/menuItem'
 import SubMenu from './components/Menu/subMenu'
 import MxIcon from './components/Icon/icon'
 import Input from './components/Input/input'
-import Upload from './components/Upload/upload'
+import Upload, { UploadFile } from './components/Upload/upload'
 import axios from 'axios'
 import AutoComplete, {
   DataSourceType,
@@ -44,6 +44,17 @@ const playersWithNums = [
   { value: 'lilard', number: 11 },
 ]
 
+const defaultFileList: UploadFile[] = []
+
+const checkFileSize = (file: File) => {
+  // 判断是否大于50k
+  if (Math.round(file.size / 1024) > 50000) {
+    alert('文件太大！')
+    return false
+  }
+  return true
+}
+
 function App() {
   const handleFectch = (query: string) => {
     // return playersWithNums.filter((player) => player.value.includes(query))
@@ -68,9 +79,18 @@ function App() {
       </>
     )
   }
+
   const beforUploadTest = (file: File) => {
-    console.log('beforeUpload拿到的fileSize', file)
+    // console.log('beforeUpload拿到的fileSize', file)
+    if (checkFileSize(file)) {
+      return filePromise(file)
+    }
     return false
+  }
+
+  const filePromise = (file: File) => {
+    const newFile = new File([file], 'new_name.docx', { type: file.type })
+    return Promise.resolve(newFile)
   }
   //* axios，Input组件
   const [title, useTitle] = useState('')
