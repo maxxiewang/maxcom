@@ -18,6 +18,25 @@ const UploadList: React.FC<UploadListProps> = (props) => {
               <MxIcon icon="file-alt" theme="secondary" />
               {item.name}
             </span>
+            <span className="file-status">
+              {(item.status === 'uploading' || item.status === 'ready') && (
+                <MxIcon icon="spinner" spin theme="primary" />
+              )}
+              {item.status === 'success' && (
+                <MxIcon icon="check-circle" theme="success" />
+              )}
+              {item.status === 'error' && (
+                <MxIcon icon="times-circle" theme="danger" />
+              )}
+            </span>
+            <span className="file-actions">
+              <MxIcon
+                icon="times"
+                onClick={() => {
+                  onRemove(item)
+                }}
+              />
+            </span>
           </li>
         )
       })}

@@ -20,31 +20,24 @@ interface GithubUserProps {
   url: string
   avatar_url: string
 }
-
-const players = [
-  'lbj',
-  'AD',
-  'Curry',
-  'KD',
-  'Harden',
-  'Morant',
-  'Luka',
-  'nick young',
-  'middlelton',
-  'lilard',
+const defaultFileList: UploadFile[] = [
+  {
+    uid: '123',
+    size: 1234,
+    name: 'hello.md',
+    status: 'uploading',
+    percent: 30,
+  },
+  { uid: '122', size: 1234, name: 'xyz.md', status: 'success', percent: 30 },
+  { uid: '121', size: 1234, name: 'eyiha.md', status: 'error', percent: 30 },
 ]
+
+const players = ['lbj', 'AD']
 
 const playersWithNums = [
   { value: 'lbj', number: 6 },
   { value: 'AD', number: 23 },
-  { value: 'Curry', number: 3 },
-  { value: 'kd', number: 35 },
-  { value: 'Harden', number: 13 },
-  { value: 'Luka', number: 77 },
-  { value: 'lilard', number: 11 },
 ]
-
-const defaultFileList: UploadFile[] = []
 
 const checkFileSize = (file: File) => {
   // 判断是否大于50k
@@ -168,10 +161,14 @@ function App() {
       {/* <div>
         <input type="file" name="myFile" onChange={handleChange} />
       </div> */}
-      <Upload
-        action="https://jsonplaceholder.typicode.com/posts"
-        beforeUpload={beforUploadTest}
-      />
+      <div style={{ width: '300px' }}>
+        <Upload
+          action="https://jsonplaceholder.typicode.com/posts"
+          beforeUpload={beforUploadTest}
+          defaultFileList={defaultFileList}
+        />
+      </div>
+
       {/* Input组件封装展示*/}
       <Input
         style={{ marginTop: '25px', width: '300px' }}

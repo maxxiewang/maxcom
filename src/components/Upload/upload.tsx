@@ -36,7 +36,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     onRemove,
   } = props
   const fileInput = useRef<HTMLInputElement>(null)
-  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || [])
   //!
   /* 
     这个函数涉及React关于setState的函数比较，10-7课时
@@ -141,9 +141,16 @@ const Upload: React.FC<UploadProps> = (props) => {
       fileInput.current.click()
     }
   }
+  const handleRemove = (file: UploadFile) => {
+    setFileList((prevList) => {
+      return prevList.filter((item) => item.uid !== file.uid)
+    })
+    if (onRemove) {
+      onRemove(file)
+    }
+  }
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    console.log('这个files???', files)
     if (!files) return
 
     uploadFiles(files)
@@ -165,6 +172,7 @@ const Upload: React.FC<UploadProps> = (props) => {
         ref={fileInput}
         onChange={handleFileChange}
       />
+      <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   )
 }
