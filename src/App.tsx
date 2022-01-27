@@ -41,7 +41,7 @@ const playersWithNums = [
 
 const checkFileSize = (file: File) => {
   // 判断是否大于50k
-  if (Math.round(file.size / 1024) > 50000) {
+  if (Math.round(file.size / 1024) > 5000000) {
     alert('文件太大！')
     return false
   }
