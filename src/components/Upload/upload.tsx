@@ -143,6 +143,7 @@ const Upload: React.FC<UploadProps> = (props) => {
   }
   const handleRemove = (file: UploadFile) => {
     setFileList((prevList) => {
+      //! 通过filter实现一个删除效果
       return prevList.filter((item) => item.uid !== file.uid)
     })
     if (onRemove) {

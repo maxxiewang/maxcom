@@ -163,7 +163,7 @@ function App() {
       </div> */}
       <div style={{ width: '300px' }}>
         <Upload
-          action="https://jsonplaceholder.typicode.com/posts"
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           beforeUpload={beforUploadTest}
           defaultFileList={defaultFileList}
         />

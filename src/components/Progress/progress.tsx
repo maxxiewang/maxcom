@@ -4,12 +4,11 @@ export interface ProgressProps {
   percent: number
   strokeHeight?: number
   showText?: boolean
-  styles?: React.CSSProperties
+  styles?: React.CSSProperties // React的CSS类型写法
   theme?: ThemeProps
 }
 
 const Progress: React.FC<ProgressProps> = (props) => {
-  const str = 'dd'
   const { percent, strokeHeight, showText, styles, theme } = props
   return (
     <div className="viking-progress-bar" style={styles}>
