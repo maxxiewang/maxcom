@@ -9,6 +9,7 @@ import SubMenu from './components/Menu/subMenu'
 import MxIcon from './components/Icon/icon'
 import Input from './components/Input/input'
 import Upload, { UploadFile } from './components/Upload/upload'
+import UploadDrag from './components/Upload/uploadDrag'
 import axios from 'axios'
 import AutoComplete, {
   DataSourceType,
@@ -82,7 +83,8 @@ function App() {
   }
 
   const filePromise = (file: File) => {
-    const newFile = new File([file], 'new_name.docx', { type: file.type })
+    console.log('上传之前拿到这file', file)
+    const newFile = new File([file], file.name, { type: file.type })
     return Promise.resolve(newFile)
   }
   //* axios，Input组件
@@ -166,7 +168,23 @@ function App() {
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           beforeUpload={beforUploadTest}
           defaultFileList={defaultFileList}
-        />
+          data={{ name: 'xiaoming' }}
+          headers={{ 'X-Powered-By': 'Maxxie' }}
+          multiple
+        ></Upload>
+      </div>
+
+      {/* 用于拖拽的Upload组件 */}
+      <div style={{ width: '350px', paddingTop: '40px' }}>
+        <UploadDrag
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          drag
+          multiple
+        >
+          <MxIcon icon="upload" size="5x" theme="secondary" />
+          <br />
+          <p>拖拽上传</p>
+        </UploadDrag>
       </div>
 
       {/* Input组件封装展示*/}

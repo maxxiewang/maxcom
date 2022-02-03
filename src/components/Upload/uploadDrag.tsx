@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useRef, useState } from 'react'
 import axios from 'axios'
 import MxButton, { ButtonType } from '../Button/button'
+import Dragger from './dragger'
 import UploadList from './uploadList'
 export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error'
 export interface UploadProps {
@@ -18,6 +19,7 @@ export interface UploadProps {
   withCredentials?: boolean
   accept?: string
   multiple?: boolean
+  drag?: boolean // 是否为拖动上传
 }
 
 export interface UploadFile {
@@ -30,7 +32,7 @@ export interface UploadFile {
   response?: any
   error?: any
 }
-const Upload: React.FC<UploadProps> = (props) => {
+const UploadDrag: React.FC<UploadProps> = (props) => {
   const {
     action,
     defaultFileList,
@@ -40,15 +42,18 @@ const Upload: React.FC<UploadProps> = (props) => {
     beforeUpload,
     onChange,
     onRemove,
+    children,
     name,
     headers,
     data,
     withCredentials,
     accept,
     multiple,
+    drag,
   } = props
   const fileInput = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || [])
+
   //!
   /* 
     这个函数涉及React关于setState的函数比较，10-7课时
@@ -111,7 +116,6 @@ const Upload: React.FC<UploadProps> = (props) => {
         formData.append(key, data[key])
       })
     }
-
     //! AXIOS官方提供的onProgress事件, withCredentials
     axios
       .post(action, formData, {
@@ -183,24 +187,40 @@ const Upload: React.FC<UploadProps> = (props) => {
   }
   console.log('fileList', fileList)
   return (
-    <div className="viking-upload-component" onClick={handleClick}>
-      <MxButton btnType={ButtonType.Primary}>上传文件</MxButton>
-      <input
-        type="file"
-        className="viking-file-input"
-        style={{ display: 'none' }}
-        ref={fileInput}
-        onChange={handleFileChange}
-        accept={accept}
-        multiple={multiple}
-      />
+    <div className="viking-upload-component">
+      <div
+        className="viking-upload-input"
+        style={{ display: 'inline-block' }}
+        onClick={handleClick}
+      >
+        {drag ? (
+          <Dragger
+            onFile={(files) => {
+              uploadFiles(files)
+            }}
+          >
+            {children}
+          </Dragger>
+        ) : (
+          children
+        )}
+        <input
+          className="viking-file-input"
+          style={{ display: 'none' }}
+          ref={fileInput}
+          onChange={handleFileChange}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+        />
+      </div>
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   )
 }
 
-Upload.defaultProps = {
+UploadDrag.defaultProps = {
   name: 'file',
 }
 
-export default Upload
+export default UploadDrag
